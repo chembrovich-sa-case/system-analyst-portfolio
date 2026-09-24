@@ -1,0 +1,57 @@
+# 03. Модель данных (ERD) и атрибутивный состав
+
+## 📌 Описание ERD
+Логическая модель данных проектируемой системы Service Desk. Диаграмма отражает сущности, их атрибуты, первичные (`PK`) и внешние (`FK`) ключи, а также связи между ними.
+
+---
+
+## 🗄️ ER-Диаграмма (Mermaid)
+
+```mermaid
+erDiagram
+    USERS ||--o{ TICKETS : "создает (author)"
+    USERS ||--o{ TICKETS : "исполняет (assignee)"
+    STATUSES ||--o{ TICKETS : "определяет статус"
+    CATEGORIES ||--o{ TICKETS : "категоризирует"
+    TICKETS ||--o{ COMMENTS : "содержит"
+    USERS ||--o{ COMMENTS : "оставляет"
+
+    USERS {
+        uuid id PK
+        string full_name
+        string email
+        string role
+        uuid department_id
+    }
+
+    TICKETS {
+        uuid id PK
+        string title
+        text description
+        string priority
+        uuid status_id FK
+        uuid category_id FK
+        uuid author_id FK
+        uuid assignee_id FK
+        timestamp created_at
+        timestamp due_date
+    }
+
+    STATUSES {
+        uuid id PK
+        string code
+        string name
+    }
+
+    CATEGORIES {
+        uuid id PK
+        string name
+    }
+
+    COMMENTS {
+        uuid id PK
+        uuid ticket_id FK
+        uuid user_id FK
+        text comment_text
+        timestamp created_at
+    }
