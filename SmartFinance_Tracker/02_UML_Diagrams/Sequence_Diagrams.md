@@ -37,7 +37,11 @@ end
 deactivate API
 deactivate App
 @enduml
+```
 
+## UC-2: Перевод между валютными счетами
+
+```plantuml
 @startuml
 actor "Пользователь" as User
 participant "App" as App
@@ -62,7 +66,11 @@ API --> App: 200 OK
 deactivate API
 App --> User: Сообщение об успехе перевода
 @enduml
+```
 
+## UC-3: Просмотр сводного баланса (с Fallback)
+
+```plantuml
 @startuml
 actor "Пользователь" as User
 participant "App" as App
@@ -102,3 +110,4 @@ deactivate API
 App --> User: Отображение баланса на экране
 deactivate App
 @enduml
+```
