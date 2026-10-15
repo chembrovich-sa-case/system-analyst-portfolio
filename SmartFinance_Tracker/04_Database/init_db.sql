@@ -24,7 +24,7 @@ CREATE TABLE transactions (
     transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Таблица для кэширования курсов валют (на основе нашего Data Mapping)
+-- Таблица для кэширования курсов валют 
 CREATE TABLE exchange_rates (
     id SERIAL PRIMARY KEY,
     base_currency VARCHAR(3) NOT NULL,
