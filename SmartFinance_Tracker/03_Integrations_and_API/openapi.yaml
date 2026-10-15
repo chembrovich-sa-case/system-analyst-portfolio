@@ -1,1 +1,86 @@
+openapi: 3.0.3
+info:
+  title: SmartFinance Tracker API
+  description: Внутреннее API для мобильного приложения умного трекера финансов.
+  version: 1.0.0
+servers:
+  - url: https://api.smartfinance.local/v1
+    description: Локальный сервер разработки
 
+paths:
+  /transactions:
+    post:
+      summary: Добавление новой транзакции
+      description: Создает операцию расхода или дохода по указанному счету.
+      operationId: createTransaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+      responses:
+        '201':
+          description: Транзакция успешно создана
+        '400':
+          description: Ошибка валидации данных (например, отрицательная сумма)
+
+  /accounts/{accountId}/balance:
+    get:
+      summary: Получение баланса счета
+      description: Возвращает текущий остаток средств на указанном счете.
+      operationId: getAccountBalance
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: Уникальный ID счета из базы данных
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        '404':
+          description: Счет не найден
+
+components:
+  schemas:
+    TransactionRequest:
+      type: object
+      required:
+        - account_id
+        - amount
+        - type
+      properties:
+        account_id:
+          type: integer
+          example: 10
+        category_id:
+          type: integer
+          example: 5
+        type:
+          type: string
+          enum: [income, expense, transfer]
+          example: expense
+        amount:
+          type: number
+          format: float
+          example: 1500.50
+          
+    BalanceResponse:
+      type: object
+      properties:
+        account_id:
+          type: integer
+          example: 10
+        currency:
+          type: string
+          example: "RUB"
+        current_balance:
+          type: number
+          format: float
+          example: 45000.00
